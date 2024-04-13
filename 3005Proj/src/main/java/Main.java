@@ -475,7 +475,6 @@ public class Main {
         scanner.nextLine();
 
         if (checkTrainerAvailability(trainerId, day)) {
-            if (checkTrainerAvailability(trainerId, day)) {
                 try (Connection connection = DriverManager.getConnection(url, user, pass);
                      PreparedStatement pstmt = connection.prepareStatement("INSERT INTO Trains (member_id, trainer_id, timeslot, price) VALUES (?, ?, ?, ?)")) {
                     pstmt.setInt(1, memberId);
@@ -497,7 +496,7 @@ public class Main {
                 System.out.println("Trainer is not available on the selected day or is already booked");
             }
         }
-    }
+
     private static void joinClass(Scanner scanner, int memberId) throws SQLException {
         viewClassSchedule();
         System.out.print("Enter the class ID you wish to join: ");
@@ -1001,15 +1000,14 @@ private static void bookClass(Scanner scanner, int adminId) throws SQLException 
         System.out.println("List of All Rooms: ");
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT room_id, max_capacity FROM Room")) {
+             ResultSet rs = stmt.executeQuery("SELECT room_id FROM Room")) {
             if (!rs.isBeforeFirst()) {
                 System.out.println("No rooms found in the database");
                 return;
             }
             while (rs.next()) {
                 int roomId = rs.getInt("room_id");
-                int maxCapacity = rs.getInt("max_capacity");
-                System.out.println("Room ID: " + roomId + ", Max Capacity: " + maxCapacity);
+                System.out.println("Room ID: " + roomId + ", Max Capacity: ");
             }
         }
     }
@@ -1032,7 +1030,7 @@ private static void bookClass(Scanner scanner, int adminId) throws SQLException 
     }
 
     private static float displaySessionsAndTotal(int memberId) throws SQLException {
-        float totalAmount = 0;
+        float totalAmount = 20.99F;
         boolean hasSessions = false;
         try (Connection connection = DriverManager.getConnection(url, user, pass);
              PreparedStatement pstmt = connection.prepareStatement(
